@@ -1,6 +1,8 @@
 
 const path = require('path');
 
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
 
     // 入口
@@ -37,7 +39,9 @@ module.exports = {
 
     // plugins 的配置
     plugins: [
-
+        new HtmlWebpackPlugin({
+            template: './index.html',
+        }),
     ],
 
     // 模式
