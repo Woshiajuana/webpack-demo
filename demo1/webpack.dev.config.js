@@ -2,7 +2,6 @@
 const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
 
@@ -23,17 +22,14 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    // 'style-loader',
-                    MiniCssExtractPlugin.loader,
+                    'style-loader',
                     'css-loader',
                 ],
             },
             {
                 test: /\.s(c|a)ss$/,
                 use: [
-                    // 'style-loader',
-                    // 取代style-loader, 提取 js 中的 css 成单独文件
-                    MiniCssExtractPlugin.loader,
+                    'style-loader',
                     'css-loader',
                     'sass-loader',
                 ],
@@ -74,10 +70,6 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/index.html',
-        }),
-        new MiniCssExtractPlugin({
-            // filename: 'css/[contenthash:8].css',
-            filename: 'css/[name].css',
         }),
     ],
 
