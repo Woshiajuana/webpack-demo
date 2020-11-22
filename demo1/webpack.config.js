@@ -11,7 +11,7 @@ module.exports = {
     // 出口
     output: {
         // 输出文件名
-        filename: 'index.js',
+        filename: 'js/index.js',
         // 输出路径
         path: path.resolve(__dirname, 'dist'),
     },
@@ -44,6 +44,7 @@ module.exports = {
                     // esModule: false,
                     // 取 hash 前十位
                     name: '[hash:10].[ext]',
+                    outputPath: 'images', // 输出目录
                 },
             },
             {
@@ -59,6 +60,7 @@ module.exports = {
                 loader: 'file-loader',
                 options: {
                     name: '[hash:10].[ext]',
+                    outputPath: 'media', // 输出目录
                 }
             },
         ]
