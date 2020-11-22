@@ -51,6 +51,16 @@ module.exports = {
                 test: /\.html$/,
                 loader: 'html-loader',
             },
+            // 打包其他资源
+            {
+                // 排除 css/js/html 资源
+                // exclude: /\.(css|js|html|scss)$/
+                test: /\.(eot|svg|woff|ttf)$/,
+                loader: 'file-loader',
+                options: {
+                    name: '[hash:10].[ext]',
+                }
+            },
         ]
     },
 
