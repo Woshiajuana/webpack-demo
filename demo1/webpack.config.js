@@ -9,7 +9,7 @@ module.exports = {
     // 出口
     output: {
         // 输出文件名
-        filename: 'built.js',
+        filename: 'index.js',
         // 输出路径
         path: path.resolve(__dirname, 'dist'),
     },
@@ -22,7 +22,15 @@ module.exports = {
                 use: [
                     'style-loader',
                     'css-loader',
-                ]
+                ],
+            },
+            {
+                test: /\.s(c|a)ss$/,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'sass-loader',
+                ],
             }
         ]
     },
