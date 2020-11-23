@@ -3,6 +3,10 @@ const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
+
+// 设置 nodejs 环境变量
+process.env.NODE_ENV = 'development';
 
 module.exports = {
 
@@ -35,6 +39,24 @@ module.exports = {
                     // 取代style-loader, 提取 js 中的 css 成单独文件
                     MiniCssExtractPlugin.loader,
                     'css-loader',
+                    // css 兼容处理 postcss-loader  postcss-preset-env
+                    // 开发环境 -> 设置 node 环境变量：process.env.NODE_ENV = development
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    [
+                                        "postcss-preset-env",
+                                        {
+                                            // 其他选项
+                                        },
+                                    ],
+                                ],
+                            },
+                        },
+
+                    },
                     'sass-loader',
                 ],
             },
@@ -67,6 +89,59 @@ module.exports = {
                     outputPath: 'media', // 输出目录
                 }
             },
+            /**
+             * 语法检查：eslint-loader eslint
+             * 注意：只检查自己写的源代码，第三方的库是不用检查的
+             * 设置检查规则：
+             * package.json 中 eslintConfig 中设置
+             *  "eslintConfig": {
+             *      "extends": "airbnb-base"
+             *  }
+             * airbnb -> eslint-config-airbnb-base eslint eslint-plugin-import
+             * eslint-disable-next-line: 下一行 eslint 所有规则都失效，不进行 eslint 检查。
+             * */
+            // {
+            //     test: /\.js$/,
+            //     exclude: /node_modules/,
+            //     loader: 'eslint-loader',
+            //     options: {
+            //         // 自动修复 eslint 的错误
+            //         fix: true,
+            //     }
+            // },
+            /**
+             * js 兼容性处理：babel-loader
+             * 1.
+             * */
+            {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/,
+                options: {
+                    // 只是 babel 做怎样的处理
+                    presets: [
+                        [
+                            '@babel/preset-env',
+                            {
+                                // 按需加载
+                                useBuiltIns: 'usage',
+                                // 指定 core-js 版本
+                                corejs: {
+                                    version: 3,
+                                },
+                                // 指定兼容性做到哪个版本的浏览器
+                                targets: {
+                                    chrome: '60',
+                                    firefox: '60',
+                                    ie: '9',
+                                    safari: '10',
+                                    edge: '17',
+                                }
+                            }
+                        ]
+                    ]
+                }
+            }
         ]
     },
 
@@ -76,9 +151,9 @@ module.exports = {
             template: './src/index.html',
         }),
         new MiniCssExtractPlugin({
-            // filename: 'css/[contenthash:8].css',
-            filename: 'css/[name].css',
+            filename: 'css/[name][contenthash:8].css',
         }),
+        new OptimizeCssAssetsWebpackPlugin(),
     ],
 
     // 模式
