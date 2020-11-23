@@ -11,10 +11,7 @@ process.env.NODE_ENV = 'development';
 module.exports = {
 
     // 入口
-    entry: [
-        './src/js/index.js',
-        './src/index.html',
-    ],
+    entry: './src/js/index.js',
 
     // 出口
     output: {
@@ -38,15 +35,15 @@ module.exports = {
             {
                 test: /\.s(c|a)ss$/,
                 use: [
-                    'style-loader',
+                    // 'style-loader',
                     // 取代style-loader, 提取 js 中的 css 成单独文件
-                    // {
-                    //     loader: MiniCssExtractPlugin.loader,
-                    //     //在这里设置publicPath的路径就是background-img的路径
-                    //     options:{
-                    //         publicPath: '../'
-                    //     }
-                    // },
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        //在这里设置publicPath的路径就是background-img的路径
+                        options:{
+                            publicPath: '../'
+                        }
+                    },
                     'css-loader',
                     // css 兼容处理 postcss-loader  postcss-preset-env
                     // 开发环境 -> 设置 node 环境变量：process.env.NODE_ENV = development
@@ -189,7 +186,5 @@ module.exports = {
         port: 3000,
         // 自动打开浏览器
         open: true,
-        // 开启 hot
-        hot: true,
     },
 };
