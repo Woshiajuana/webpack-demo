@@ -37,7 +37,13 @@ module.exports = {
                 use: [
                     // 'style-loader',
                     // 取代style-loader, 提取 js 中的 css 成单独文件
-                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        //在这里设置publicPath的路径就是background-img的路径
+                        options:{
+                            publicPath: '../'
+                        }
+                    },
                     'css-loader',
                     // css 兼容处理 postcss-loader  postcss-preset-env
                     // 开发环境 -> 设置 node 环境变量：process.env.NODE_ENV = development
@@ -149,6 +155,13 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/index.html',
+            // 压缩 html
+            minify: {
+                // 移除空格
+                collapseWhitespace: true,
+                // 移除注释
+                removeComments: true,
+            }
         }),
         new MiniCssExtractPlugin({
             filename: 'css/[name][contenthash:8].css',
